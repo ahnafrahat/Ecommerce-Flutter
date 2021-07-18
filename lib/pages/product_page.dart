@@ -1,3 +1,6 @@
+import 'package:ecommerce_block/blocs/wishlist/wishlist_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../models/models.dart';
 import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
@@ -35,12 +38,23 @@ class ProductPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite,
-                  color: Colors.white,
-                ),
+              BlocBuilder<WishlistBloc, WishlistState>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: () {
+                      context
+                          .read<WishlistBloc>()
+                          .add(AddWishListProduct(product: product));
+                      final snackbar =
+                          SnackBar(content: Text('Added Favorite Success'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    },
+                    icon: Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                    ),
+                  );
+                },
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.white),
